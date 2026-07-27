@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.18.1/axios.js"></script>
+    <title>Document</title>
+    <style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#ffffff;
+    padding:30px;
+}
+
+.contenedor{
+    width:1200px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:25px;
+}
+
+.cabecera{
+    background:#cecbcb;
+    border-radius:12px;
+    padding:30px;
+    box-shadow:0 3px 12px rgba(0,0,0,.15);
+
+    display:flex;
+    align-items:center;
+    gap:30px;
+
+    grid-column-start:1;
+    grid-column-end:3;
+}
+
+img{
+    width:130px;
+    height:130px;
+    border-radius:50%;
+    border:4px solid #f7f9fc;
+}
+
+.datos-nombre{
+    display:flex;
+    flex-direction:column;
+}
+
+h1{
+    font-size:42px;
+    color:#444;
+    margin-bottom:8px;
+}
+
+#titulo{
+    font-size:22px;
+    color:#cccccc;
+    text-transform:none;
+    border:none;
+    margin:0;
+    padding:0;
+}
+
+.seccion{
+    background:#cecbcb;
+    border-radius:12px;
+    padding:25px;
+    box-shadow:0 3px 12px rgba(0,0,0,.15);
+}
+
+.seccion h2{
+    font-size:24px;
+    color:#555;
+    border-bottom:2px solid #ddd;
+    padding-bottom:10px;
+    margin-bottom:15px;
+    text-transform:uppercase;
+}
+
+.seccion h3{
+    font-size:18px;
+    color:#555;
+    margin:12px 0;
+    font-weight:normal;
+}
+
+.personal{
+    grid-column: 1 / 3;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    
+}
+
+.personal h2{
+    grid-column: 1 / 3;
+      
+   
+}
+
+
+#btnMapa{
+    margin-top:10px;
+    padding:10px 15px;
+    border:none;
+    border-radius:8px;
+    background:#0c0c0c;
+    color:white;
+    cursor:pointer;
+    font-size:16px;
+}
+
+#btnMapa:hover{
+    background:#355ca8;
+}
+
+    </style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+    <div class="cabecera">
+
+        <img id="perfil" alt="">
+
+        <div class="datos-nombre">
+            <h1 id="nombre"></h1>
+            <h2 id="titulo"></h2>
+        </div>
+
+    </div>
+
+   <div class="seccion personal">
+    <h2>Información Personal</h2>
+
+    <div>
+        <h3 id="correo"></h3>
+        <h3 id="telefono"></h3>
+        <h3 id="fecha"></h3>
+    </div>
+
+    <div>
+        <h3 id="edad"></h3>
+        <h3 id="genero"></h3>
+        <h3 id="nat"></h3>
+    </div>
+</div>
+
+    <div class="seccion">
+        <h2>Dirección</h2>
+
+        <h3 id="pais"></h3>
+        <h3 id="estado"></h3>
+        <h3 id="ciudad"></h3>
+        <h3 id="codigo"></h3>
+        <h3 id="calle"></h3>
+        <h3 id="numero"></h3>
+    </div>
+
+  <div class="seccion">
+    <h2>Ubicación</h2>
+
+    <h3 id="latitud"></h3>
+    <h3 id="longitud"></h3>
+
+    <button id="btnMapa">Ver en Google Maps</button>
+</div>
+
+    <div class="seccion">
+        <h2>Zona Horaria</h2>
+
+        <h3 id="zona_horaria"></h3>
+        <h3 id="descripcion"></h3>
+        <h3 id="desplazamiento"></h3>
+    </div>
+
+    <div class="seccion">
+        <h2>Información de Inicio de Sesión</h2>
+
+        <h3 id="nombre_usuario"></h3>
+        <h3 id="contrasena"></h3>
+        <h3 id="md5"></h3>
+        <h3 id="sal"></h3>
+        <h3 id="sha1"></h3>
+        <h3 id="sha256"></h3>
+        <h3 id="uuid"></h3>
+    </div>
+
+    
+
+</div>
+
+ <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+
+
+            let res = await axios.get("https://randomuser.me/api/")
+            console.log(res);
+
+            let nombre = document.getElementById("nombre");
+            nombre.textContent = res.data.results[0].name.first + " " + res.data.results[0].name.last;
+
+            let perfil = document.getElementById("perfil")
+            perfil.src = res.data.results[0].picture.large
+
+            let correo = document.getElementById("correo")
+            correo.textContent = "Correo: " + res.data.results[0].email;
+
+            let telefono = document.getElementById("telefono")
+            telefono.textContent = "Telefono: " + res.data.results[0].phone;
+
+            let pais = document.getElementById("pais")
+            pais.textContent = " Pais: " + res.data.results[0].location.country;
+
+            let fecha = document.getElementById("fecha");
+            fecha.textContent = "Fecha Nacimiento: " + new Date(res.data.results[0].dob.date).toLocaleDateString();
+
+            let edad = document.getElementById("edad");
+            edad.textContent = "Edad: " + res.data.results[0].dob.age;
+
+            let genero = document.getElementById("genero");
+            genero.textContent = "Genero: " + res.data.results[0].gender;
+
+            let ciudad = document.getElementById("ciudad");
+            ciudad.textContent = "Ciudad: " + res.data.results[0].location.city;
+
+            let estado = document.getElementById("estado");
+            estado.textContent = "Estado: " + res.data.results[0].location.state;
+
+            let codigo = document.getElementById("codigo");
+            codigo.textContent = "Codigo postal: " + res.data.results[0].location.postcode;
+
+            let calle = document.getElementById("calle");
+            calle.textContent = "Calle: " + res.data.results[0].location.street.name;
+
+            let numero = document.getElementById("numero");
+            numero.textContent = "Numero de calle: " + res.data.results[0].location.street.number;
+
+            let latitud = document.getElementById("latitud");
+            latitud.textContent = "latitud: " + res.data.results[0].location.coordinates.latitude;
+
+            let longitud = document.getElementById("longitud");
+            longitud.textContent = "longitud:" + res.data.results[0].location.coordinates.longitude;
+
+            let zona_horaria = document.getElementById("zona_horaria");
+            zona_horaria.textContent = "Zona horaria: " + res.data.results[0].location.timezone.description;
+
+            let descripcion = document.getElementById("descripcion");
+            descripcion.textContent = "Descripcion: " + res.data.results[0].location.timezone.description;
+
+            let desplazamiento = document.getElementById("desplazamiento");
+            desplazamiento.textContent = " Desplazamiento: " + res.data.results[0].location.timezone.offset;
+
+
+            let md5 = document.getElementById("md5");
+            md5.textContent = "Usuario login: " + res.data.results[0].login.md5;
+
+            let contrasena = document.getElementById("contrasena");
+            contrasena.textContent = "Contraseña: " + res.data.results[0].login.password;
+
+            let sal = document.getElementById("sal");
+            sal.textContent = "Sal: " + res.data.results[0].login.salt;
+
+            let sha1 = document.getElementById("sha1");
+            sha1.textContent = "SHA-1: " + res.data.results[0].login.sha1;
+
+            let sha256 = document.getElementById("sha256");
+            sha256.textContent = "SHA-256: " + res.data.results[0].login.sha256;
+
+            let nombre_usuario = document.getElementById("nombre_usuario");
+            nombre_usuario.textContent = "Nombre de usuario: " + res.data.results[0].login.username;
+
+            let uuid = document.getElementById("uuid");
+            uuid.textContent = "UUID: " + res.data.results[0].login.uuid;
+
+           let titulo = document.getElementById("titulo");
+            titulo.textContent = "Titulo: " + res.data.results[0].name.title;
+
+            let nat = document.getElementById("nat");
+            nat.textContent = "NAT: " + res.data.results[0].nat;
+
+
+            let btnMapa = document.getElementById("btnMapa");
+
+btnMapa.addEventListener("click", () => {
+
+    let lat = res.data.results[0].location.coordinates.latitude;
+    let lon = res.data.results[0].location.coordinates.longitude;
+
+    window.open(
+        `https://www.google.com/maps?q=${lat},${lon}`,
+        "_blank"
+    );
+});
+
+        })
+
+    </script>
+
+</body>
+
+
+
+
+
+</html>
